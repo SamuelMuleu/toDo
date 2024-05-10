@@ -1,0 +1,117 @@
+.tasks {
+
+    display: flex;
+    gap: 20px;
+    flex-direction: column;
+    padding: 4rem;
+    margin-right: 7rem;
+
+    align-items: center;
+
+    color: var(--gray-100);
+
+}
+
+
+.title {
+    display: flex;
+    align-items: center;
+
+    justify-content: space-between;
+    width: 49rem;
+    padding: 1rem;
+    border-radius: 8px;
+    background: var(--gray-500);
+
+}
+
+.notTasks {
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    margin-left: 9rem;
+    color: var(--gray-300);
+    gap: 5px;
+
+}
+
+.notTasks p {
+
+    font-weight: bold;
+}
+
+.notTasks span {
+    color: var(--gray-400);
+}
+
+.trash {
+    background: inherit;
+    border: none;
+    color: var(--gray-300);
+
+}
+
+.trash:hover {
+
+    color: var(--red-500);
+
+}
+
+input[type="checkbox"] {
+    border: 2px solid var(--blue-200);
+    width: 1.2rem;
+    height: 1.2rem;
+    border-radius: 50px;
+    appearance: none;
+    position: relative;
+    cursor: pointer;
+}
+
+input[type="checkbox"]:checked {
+
+    background-color: var(--purple-200);
+
+
+
+}
+
+input[type="checkbox"]:checked::before {
+    content: '\2713';
+    position: absolute;
+    bottom: -20%;
+    left: 10%;
+    font-size: 1rem;
+
+    color: var(--gray-100);
+
+}
+
+.checked {
+    text-decoration: line-through;
+    opacity: 40%;
+}
+
+@media screen and (max-width: 600px) {
+
+    body {
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .title {
+        width: 45%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-left: 7rem;
+      
+    }
+
+
+    /* Outros estilos específicos para telas menores */
+}
