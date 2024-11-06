@@ -1,30 +1,56 @@
-# React + TypeScript + Vite
+# Coffee Delivey Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-Currently, two official plugins are available:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Preview
 
-## Expanding the ESLint configuration
+<img src="https://i.imgur.com/o0gOFWV.png" alt="Texto Alternativo">
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
 
-- Configure the top-level `parserOptions` property like this:
+<img src="https://i.imgur.com/4jTKs1Q.png" alt="Texto Alternativo">
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+
+
+
+
+## Descrição
+Este projeto é um aplicativo de lista de tarefas (To-Do) desenvolvido em TypeScript com React. O objetivo foi aplicar conceitos fundamentais de React, como gerenciamento de estado e componentes reutilizáveis, além de integrar TypeScript para uma tipagem mais segura e previsível.
+
+## Tecnologias Utilizadas
+- Reactjs
+- React Router 
+- Styled Components
+- useContext
+- TypeScript
+
+## Funcionalidades Principais
+Adicionar novas tarefas.
+Marcar tarefas como completas ou incompletas.
+Excluir tarefas.
+Contador de tarefas criadas e concluídas.
+
+## Instalação
+1. Clone este repositório.
+2. Execute `npm install` para instalar as dependências.
+3. Execute `npm run dev` para iniciar o servidor de desenvolvimento.
+
+## Estrutura do Projeto
+- `/src`: Contém o código-fonte do projeto.
+  - `/components`: Componentes React reutilizáveis.
+  - `/pages`: Componentes de páginas da aplicação.
+  - `/services`: Configurações e definições da conexão com o backend.
+  -  `/routes`: Configurações e definições de Rotas de usuarios.
+  - `/styles`: Estilos globais ou compartilhados.
+
+
+## Aprendizado
+
+Durante o desenvolvimento deste projeto, o foco foi:
+
+Trabalhar com TypeScript para definir interfaces e garantir tipagem segura.
+Gerenciar estados de tarefas e implementar ações como adicionar, excluir e marcar como completa.
+Integrar o uso de ícones e realizar estilização básica para uma melhor experiência do usuário.
+
+
+
