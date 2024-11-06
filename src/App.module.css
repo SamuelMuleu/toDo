@@ -146,7 +146,7 @@
 
 }
 
-@media screen and (max-width: 600px) {
+@media (max-width: 600px) {
 
     body {
         font-size: 14px;
@@ -159,6 +159,8 @@
         width: 100%;
 
         margin-left: 3.2rem;
+        margin-bottom: -3.4rem;
+        
 
 
     }
@@ -172,6 +174,54 @@
 
     .buttonPlus {
         margin-left: 2rem;
+        margin-bottom: -2rem;
+
+    }
+
+    .main {
+        margin-top: 2rem;
+        display: flex;
+        justify-content: space-between;
+        width: 38%;
+        align-items: center;
+    }
+
+    .created {
+        margin-left: 3.2rem;
+    }
+
+    .concluded {
+        margin-right: 0.6rem;
+    }
+
+
+}
+
+@media (max-width: 440px) {
+
+    body {
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+
+    .input::placeholder {
+
+        padding: 10px;
+        font-size: 0.95rem;
+
+    }
+
+    .buttonPlus {
+  position: absolute;
+  top: 4.1rem;
+  right: -8rem;
+    }
+    .input{
+position: relative;
+top: 4rem;
 
     }
 
@@ -192,3 +242,4 @@
     }
 
 }
+

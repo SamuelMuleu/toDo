@@ -130,7 +130,8 @@ function App() {
           onChange={handleInputChange}
         />
         <button className={styles.buttonPlus}>Criar <PlusCircle
-          size={20} /> </button>
+          size={20} />
+           </button>
       </form>
 
       <div className={styles.main}>
