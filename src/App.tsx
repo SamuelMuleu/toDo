@@ -1,155 +1,127 @@
-
 import rocket from "./assets/rocket.png";
 import todo from "./assets/todo.png";
 
-import Tasks from './components/Tasks.tsx';
+import "toastify-js/src/toastify.css";
+import Toastify from "toastify-js";
 
+import Tasks, { Task } from "./components/Tasks.tsx";
 
 import { PlusCircle } from "@phosphor-icons/react";
-import { v4 as uuidv4 } from 'uuid';
 
-import './global.css'
+import "./global.css";
 import styles from "./App.module.css";
 import { ChangeEvent, FormEvent, useState } from "react";
-
-
-
-interface Task {
-  id: string;
-  title: string;
-  isComplete: boolean;
-}
-
+import axios from "axios";
 
 function App() {
-
   const [tasks, setTasks] = useState<Task[]>([]);
+  const [valueInput, setValueInput] = useState<string>("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  const [allTasks, setAllTasks] = useState(0);
+  function handleAddTask() {
+    Toastify({
+      text: "Tarefa criada com sucesso!",
+      duration: 2000,
+      gravity: "top",
+      position: "right",
+      backgroundColor: "#4caf50",
+    }).showToast();
+  }
+  function handleErrorCreateTask() {
+    Toastify({
+      text: "Digite algo antes de Criar uma tarefa!",
+      duration: 2000,
+      gravity: "top",
+      position: "center",
+      backgroundColor: "#f44336",
+    }).showToast();
+  }
 
-  const [completedTask, setCompletedTask] = useState(0);
+  const handleValueInput = (e: ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    setValueInput(e.target.value);
+  };
 
-
-
-
-
-  const [contentInput, setContentInput] = useState('');
-
-
-  function newTasks(event: FormEvent<HTMLFormElement>) {
+  const newTask = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
-
-
-
-
-    if (contentInput.trim() !== '') {
-      const newTask: Task = {
-        id: uuidv4(),
-        title: contentInput,
-        isComplete: false,
+    if (valueInput === "") {
+      handleErrorCreateTask()
+    }
+ 
+    if (valueInput.trim() !== "") {
+      setIsLoading(true);
+      const newTask: Omit<Task, "_id"> = {
+        title: valueInput,
+        completed: false,
       };
 
-      setTasks([...tasks, newTask]);
-      setContentInput('');
-      setAllTasks(tasks.length + 1);
+      try {
+     
+        const response = await axios.post(
+          "https://to-do-api-production-eb35.up.railway.app/tasks/",
+          newTask
+        );
+  
 
+        setTimeout(() => {
+          setTasks((prevTasks) => [...prevTasks, response.data]);
+          handleAddTask();
+
+          setIsLoading(false);
+          setValueInput("");
+        }, 200);
+      } catch (error) {
+        console.log("Error creating task:", error);
+        setIsLoading(false)
+      }
     }
-  }
+  };
 
 
-  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-
-    setContentInput(event.target.value);
-  }
-
-
-  const handleDeleteTask = (taskId: string) => {
-    const updatedTasks = tasks.filter(task => task.id !== taskId);
-    setTasks(updatedTasks);
-    setAllTasks(updatedTasks.length);
-
-
-
-  }
-
-  const handleToggleComplete = (taskId: string, isChecked: boolean) => {
-    const updatedTasks = tasks.map(task => {
-      if (task.id === taskId) {
-        return { ...task, isComplete: isChecked };
-
-      }
-      return task;
-    });
-
-    setTasks(updatedTasks);
-
-
-    
-    const updatedTasksverify = tasks.map(task => {
-      if (task.isComplete) {
-        return task.isComplete;
-      } else {
-        return false;
-      }
-    });
-    console.log(updatedTasksverify);
-
-
-
-
-    setTasks(updatedTasks);
-
-
-    const completedTasksCount = updatedTasks.filter(task => task.isComplete).length;
-    setCompletedTask(completedTasksCount);
-
-    setAllTasks(tasks.length);
-
-  }
-
-
+  const completedTasksCount = tasks.filter((task) => task.completed).length;
 
   return (
-
     <div>
       <div className={styles.header}>
         <img src={rocket} alt="" />
         <img src={todo} alt="" />
       </div>
 
-
-      <form className={styles.form}
-        onSubmit={newTasks} >
-
+      <form className={styles.form} onSubmit={newTask}>
         <input
           className={styles.input}
-          placeholder='Adicione uma nova Tarefa'
+          onChange={handleValueInput}
+          placeholder="Adicione uma nova Tarefa"
           type="text"
-          value={contentInput}
-          onChange={handleInputChange}
+          value={valueInput}
         />
-        <button className={styles.buttonPlus}>Criar <PlusCircle
-          size={20} />
-           </button>
+        <button
+         disabled={isLoading}
+        className={styles.buttonPlus} 
+        type="submit">
+          Criar <PlusCircle size={20} />
+        </button>
       </form>
 
       <div className={styles.main}>
-        <div className={styles.created}>tarefas criadas <div className={styles.counterCreatedTask}>{allTasks}</div></div>
-        <div className={styles.concluded} >concluídas <div className={styles.counterConcluedTask}>{completedTask} de {allTasks}</div> </div>
-
+        <div className={styles.created}>
+          tarefas criadas{" "}
+          <div className={styles.counterCreatedTask}>{tasks.length}</div>
+        </div>
+        <div className={styles.concluded}>
+          concluídas{" "}
+          <div className={styles.counterConcluedTask}>
+            {completedTasksCount} de {tasks.length}
+          </div>{" "}
+        </div>
       </div>
       <div className={styles.line}></div>
 
-
-
-      <div >
-
-        <Tasks tasks={tasks} onDelete={handleDeleteTask} onToggleComplete={(taskId, isChecked) => handleToggleComplete(taskId, isChecked)} />
-
+      <div>
+        <Tasks tasks={tasks} setTasks={setTasks} />
       </div>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

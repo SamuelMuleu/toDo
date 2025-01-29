@@ -1,160 +1,123 @@
 .tasks {
+  display: flex;
+  gap: 20px;
+  flex-direction: column;
 
-    display: flex;
-    gap: 20px;
-    flex-direction: column;
-    padding: 4rem;
-    margin-left: -0.2rem;
+  margin-top: 1rem;
 
-    align-items: center;
+  align-items: center;
 
-    color: var(--gray-100);
-
+  color: var(--gray-100);
 }
 
-
 .title {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 
-    justify-content: space-between;
-    width: 49rem;
-    padding: 1rem;
-    border-radius: 8px;
-    background: var(--gray-500);
-
+  justify-content: space-between;
+  width: 49rem;
+  padding: 1rem;
+  border-radius: 8px;
+  background: var(--gray-500);
 }
 
 .notTasks {
-
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 2rem;
-    margin-left: 9rem;
-    color: var(--gray-300);
-    gap: 5px;
-
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  margin-left: 2rem;
+  color: var(--gray-300);
+  gap: 5px;
 }
 
 .notTasks p {
-
-    font-weight: bold;
+  font-weight: bold;
 }
 
 .notTasks span {
-    color: var(--gray-400);
+  color: var(--gray-400);
 }
 
 .trash {
-    background: inherit;
-    border: none;
-    color: var(--gray-300);
-
+  background: inherit;
+  border: none;
+  color: var(--gray-300);
 }
 
 .trash:hover {
-
-    color: var(--red-500);
-
+  color: var(--red-500);
 }
 
 input[type="checkbox"] {
-    border: 2px solid var(--blue-200);
-    width: 1.2rem;
-    height: 1.2rem;
-    border-radius: 50px;
-    appearance: none;
-    position: relative;
-    cursor: pointer;
+  border: 2px solid var(--blue-200);
+  width: 1.2rem;
+  height: 1.2rem;
+  border-radius: 50px;
+  appearance: none;
+  position: relative;
+  cursor: pointer;
 }
 
 input[type="checkbox"]:checked {
-
-    background-color: var(--purple-200);
-
-
-
+  background-color: var(--purple-200);
 }
 
 input[type="checkbox"]:checked::before {
-    content: '\2713';
-    position: absolute;
-    bottom: -20%;
-    left: 10%;
-    font-size: 1rem;
+  content: "\2713";
+  position: absolute;
+  bottom: -20%;
+  left: 10%;
+  font-size: 1rem;
 
-    color: var(--gray-100);
-
+  color: var(--gray-100);
 }
 
 .checked {
-    text-decoration: line-through;
-    opacity: 40%;
+  text-decoration: line-through;
+  opacity: 40%;
 }
 
 @media (max-width: 600px) {
+  body {
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
-    body {
-        font-size: 14px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        
-    }
+  .title {
+    width: 40%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-left: 0.4rem;
+  }
 
-    .title {
-        width: 40%;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-left: 0.4rem;
-
-      
-    }
-    .notTasks {
-
-     
-        margin-right: 10rem;
-    
- 
-    
-    }
-
-    
-
-
+  .notTasks {
+    margin-right: 10rem;
+  }
 }
 @media (max-width: 440px) {
+  body {
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+   
+    justify-content: center;
+  }
+  
 
-    body {
-        font-size: 14px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        
-    }
-
-    .title {
-        width: 40%;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-left: 0.4rem;
-
-      
-    }
-    .notTasks {
-
-        margin-right: 10rem;
-        margin-top: 3rem;
-    
- 
-    
-    }
-
-    
-
-
+  .title {
+    width: 35%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-left: 0.4rem;
+  }
+  .notTasks {
+    margin-right: 2rem;
+    margin-top: 2rem;
+  }
 }
