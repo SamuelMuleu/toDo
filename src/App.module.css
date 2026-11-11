@@ -1,79 +1,67 @@
-.line {
-  margin-left: 16rem;
-  border-bottom: 1px solid var(--gray-500);
+.container {
+  width: 100%;
+  max-width: 46rem;
+  margin: -1.75rem auto 0;
+  padding: 0 1rem 4rem;
+}
+
+.notice {
+  margin-top: 1rem;
+  padding: 0.75rem 1rem;
   border-radius: 8px;
-  width: 48rem;
-  padding: 1px;
+  background: rgba(226, 88, 88, 0.12);
+  border: 1px solid rgba(226, 88, 88, 0.4);
+  color: #f3b0b0;
+  font-size: 0.875rem;
 }
 
-@media (max-width: 600px) {
-  body {
-    font-size: 14px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+.errorBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 3rem 1.5rem;
+  border-top: 1px solid var(--gray-400);
+  text-align: center;
+  color: var(--gray-200);
+}
 
-  .input {
-    width: 25%;
-    margin-top: 1rem;
-  }
+.errorBox button {
+  padding: 0.75rem 1.25rem;
+  border: 0;
+  border-radius: 8px;
+  background: var(--blue-200);
+  color: var(--gray-100);
+  font-weight: 700;
+  cursor: pointer;
+}
 
-  .input::placeholder {
-    padding: 10px;
-    font-size: 0.95rem;
-  }
+.errorBox button:hover {
+  background: var(--blue-100);
+}
 
-  .buttonPlus {
-    margin-top: 1rem;
-  }
+.skeleton {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
 
-  .main {
-    display: flex;
-    justify-content: space-between;
-    width: 38%;
-    align-items: center;
-  }
+.skeleton li {
+  height: 4.5rem;
+  border-radius: 8px;
+  background: var(--gray-500);
+  animation: pulse 1.2s ease-in-out infinite;
+}
 
-  .created {
-  }
-
-  .concluded {
-    margin-right: 0.6rem;
+@keyframes pulse {
+  50% {
+    opacity: 0.5;
   }
 }
 
-@media (max-width: 440px) {
-  body {
-    font-size: 14px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .input::placeholder {
-    padding: 10px;
-    font-size: 0.95rem;
-  }
-
-  .buttonPlus {
-  }
-
-  .input {
-  }
-
-  .main {
-    display: flex;
-    justify-content: space-between;
-    width: 38%;
-    align-items: center;
-  }
-
-  .created {
-    margin-left: 3rem;
-  }
-
-  .concluded {
-    margin-right: 0.2rem;
+@media (prefers-reduced-motion: reduce) {
+  .skeleton li {
+    animation: none;
   }
 }
