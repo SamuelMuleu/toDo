@@ -1,56 +1,45 @@
-# Coffee Delivey Frontend
+# todo — Lista de tarefas full-stack
 
+Front-end em **React + TypeScript** de uma lista de tarefas que persiste os dados na [To-Do API](https://github.com/SamuelMuleu/to-do-api) (Node.js, Express e MongoDB).
 
+🔗 **Demo:** https://organizelist.netlify.app
 
-## Preview
+## Funcionalidades
 
-<img src="https://i.imgur.com/o0gOFWV.png" alt="Texto Alternativo">
+- Criar, concluir/reabrir e excluir tarefas
+- Contador de tarefas criadas e concluídas; pendentes aparecem primeiro
+- Atualizações otimistas (a tela responde na hora e desfaz se a API falhar)
+- Estados de carregamento, lista vazia e erro com "tentar novamente"
+- Layout responsivo e acessível (rótulos, foco visível, navegação por teclado)
 
+## Stack
 
-<img src="https://i.imgur.com/4jTKs1Q.png" alt="Texto Alternativo">
+React 18 · TypeScript · Vite · CSS Modules · Axios · Phosphor Icons
 
+## Rodando localmente
 
+1. Suba a API ([to-do-api](https://github.com/SamuelMuleu/to-do-api)) em `http://localhost:3001`.
+2. Opcionalmente crie um `.env.local` apontando para outra URL:
 
+   ```bash
+   VITE_API_URL=https://sua-api.vercel.app
+   ```
 
+3. Rode o front:
 
+   ```bash
+   npm install
+   npm run dev
+   ```
 
-## Descrição
-Este projeto é um aplicativo de lista de tarefas (To-Do) desenvolvido em TypeScript com React. O objetivo foi aplicar conceitos fundamentais de React, como gerenciamento de estado e componentes reutilizáveis, além de integrar TypeScript para uma tipagem mais segura e previsível.
+## Estrutura
 
-## Tecnologias Utilizadas
-- Reactjs
-- React Router 
-- Styled Components
-- useContext
-- TypeScript
-
-## Funcionalidades Principais
-Adicionar novas tarefas.
-Marcar tarefas como completas ou incompletas.
-Excluir tarefas.
-Contador de tarefas criadas e concluídas.
-
-## Instalação
-1. Clone este repositório.
-2. Execute `npm install` para instalar as dependências.
-3. Execute `npm run dev` para iniciar o servidor de desenvolvimento.
-
-## Estrutura do Projeto
-- `/src`: Contém o código-fonte do projeto.
-  - `/components`: Componentes React reutilizáveis.
-  - `/pages`: Componentes de páginas da aplicação.
-  - `/services`: Configurações e definições da conexão com o backend.
-  -  `/routes`: Configurações e definições de Rotas de usuarios.
-  - `/styles`: Estilos globais ou compartilhados.
-
-
-## Aprendizado
-
-Durante o desenvolvimento deste projeto, o foco foi:
-
-Trabalhar com TypeScript para definir interfaces e garantir tipagem segura.
-Gerenciar estados de tarefas e implementar ações como adicionar, excluir e marcar como completa.
-Integrar o uso de ícones e realizar estilização básica para uma melhor experiência do usuário.
-
-
-
+```
+src/
+  lib/api.ts                 # cliente HTTP e tipos
+  App.tsx                    # estado da lista e regras de carregamento/erro
+  components/
+    Header/
+    AddTaskForm/             # formulário e contadores
+    Tasks/                   # lista, item e estado vazio
+```

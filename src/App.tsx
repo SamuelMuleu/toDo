@@ -1,97 +1,111 @@
-import "toastify-js/src/toastify.css";
-
-import Tasks, { Task } from "./components/Tasks/Tasks.tsx";
-
-import Toastify from "toastify-js";
-import "./global.css";
+import { useCallback, useEffect, useState } from "react";
+import { Header } from "./components/Header/Header";
+import { AddTaskForm } from "./components/AddTaskForm/AddTaskForm";
+import { TaskStatistics } from "./components/AddTaskForm/TaskStatistics";
+import { Tasks } from "./components/Tasks/Tasks";
+import { Task, createTask, deleteTask, errorMessage, fetchTasks, setTaskCompleted } from "./lib/api";
 import styles from "./App.module.css";
-import { Header } from "./components/Header/Header.tsx";
-import { FormEvent, useState } from "react";
-import { AddTaskForm } from "./components/AddTaskForm.tsx/AddTaskForm.tsx";
-import axios from "axios";
-import { TaskStatistics } from "./components/AddTaskForm.tsx/TaskStatistics.tsx";
+import "./global.css";
 
-function App() {
+type LoadState = "loading" | "ready" | "error";
+
+export default function App() {
   const [tasks, setTasks] = useState<Task[]>([]);
+  const [loadState, setLoadState] = useState<LoadState>("loading");
+  const [notice, setNotice] = useState<string | null>(null);
 
-  const [valueInput, setValueInput] = useState<string>("");
-  const [isLoading, setIsLoading] = useState(false);
+  const load = useCallback(async () => {
+    setLoadState("loading");
+    try {
+      setTasks(await fetchTasks());
+      setLoadState("ready");
+    } catch (error) {
+      setNotice(errorMessage(error, "Não foi possível carregar as tarefas."));
+      setLoadState("error");
+    }
+  }, []);
 
-  function handleAddTask() {
-    Toastify({
-      text: "Tarefa criada com sucesso!",
-      duration: 2000,
-      gravity: "top",
-      position: "right",
-      backgroundColor: "#4caf50",
-    }).showToast();
+  useEffect(() => {
+    load();
+  }, [load]);
+
+  // Auto-hide notices after a few seconds
+  useEffect(() => {
+    if (!notice || loadState === "error") return;
+    const t = setTimeout(() => setNotice(null), 4000);
+    return () => clearTimeout(t);
+  }, [notice, loadState]);
+
+  async function handleCreate(title: string) {
+    try {
+      const task = await createTask(title);
+      setTasks((prev) => [...prev, task]);
+      setNotice(null);
+      return true;
+    } catch (error) {
+      setNotice(errorMessage(error, "Não foi possível criar a tarefa."));
+      return false;
+    }
   }
 
-  function handleErrorCreateTask() {
-    Toastify({
-      text: "Digite algo antes de Criar uma tarefa!",
-      duration: 2000,
-      gravity: "top",
-      position: "center",
-      backgroundColor: "#f44336",
-    }).showToast();
+  // Optimistic updates: change the UI right away and roll back on failure
+  async function handleToggle(task: Task) {
+    const completed = !task.completed;
+    setTasks((prev) => prev.map((t) => (t._id === task._id ? { ...t, completed } : t)));
+    try {
+      await setTaskCompleted(task._id, completed);
+    } catch (error) {
+      setTasks((prev) => prev.map((t) => (t._id === task._id ? { ...t, completed: task.completed } : t)));
+      setNotice(errorMessage(error, "Não foi possível atualizar a tarefa."));
+    }
   }
 
-  const newTask = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (valueInput === "") {
-      handleErrorCreateTask();
+  async function handleDelete(task: Task) {
+    const snapshot = tasks;
+    setTasks((prev) => prev.filter((t) => t._id !== task._id));
+    try {
+      await deleteTask(task._id);
+    } catch (error) {
+      setTasks(snapshot);
+      setNotice(errorMessage(error, "Não foi possível excluir a tarefa."));
     }
+  }
 
-    if (valueInput.trim() !== "") {
-      setIsLoading(true);
-      const newTask: Omit<Task, "_id"> = {
-        title: valueInput,
-        completed: false,
-      };
-
-      try {
-        const response = await axios.post(
-          "https://to-do-api-production-eb35.up.railway.app/tasks/",
-          newTask
-        );
-
-        setTimeout(() => {
-          setTasks((prevTasks) => [...prevTasks, response.data]);
-          handleAddTask();
-
-          setIsLoading(false);
-          setValueInput("");
-        }, 200);
-      } catch (error) {
-        console.log("Error creating task:", error);
-        setIsLoading(false);
-      }
-    }
-  };
-
-  const completedTasksCount = tasks.filter((task) => task.completed).length;
+  const completed = tasks.filter((t) => t.completed).length;
 
   return (
-    <div>
-      <div>
-        <Header />
-        <AddTaskForm
-          valueInput={valueInput}
-          setValueInput={setValueInput}
-          isLoading={isLoading}
+    <>
+      <Header />
+      <main className={styles.container}>
+        <AddTaskForm onCreate={handleCreate} disabled={loadState !== "ready"} />
 
-          newTask={newTask}
-        />
-        <TaskStatistics
-          tasks={tasks}
-          completedTasksCount={completedTasksCount}
-        />
-        <div className={styles.line}></div>
-        <Tasks tasks={tasks} setTasks={setTasks} />
-      </div>
-    </div>
+        {notice && loadState !== "error" && (
+          <p role="alert" className={styles.notice}>
+            {notice}
+          </p>
+        )}
+
+        <TaskStatistics total={tasks.length} completed={completed} />
+
+        {loadState === "loading" && (
+          <ul className={styles.skeleton} aria-busy="true" aria-label="Carregando tarefas">
+            {[0, 1, 2].map((i) => (
+              <li key={i} />
+            ))}
+          </ul>
+        )}
+
+        {loadState === "error" && (
+          <div role="alert" className={styles.errorBox}>
+            <p>{notice}</p>
+            <button type="button" onClick={load}>
+              Tentar novamente
+            </button>
+          </div>
+        )}
+
+        {loadState === "ready" && <Tasks tasks={tasks} onToggle={handleToggle} onDelete={handleDelete} />}
+      </main>
+    </>
   );
 }
-
-export default App;
